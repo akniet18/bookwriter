@@ -1,0 +1,91 @@
+from django.shortcuts import render
+from django.http import JsonResponse
+from .models import *
+from rest_framework import generics, permissions, status, views, viewsets
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import permission_classes
+from .serializers import *
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
+import random
+from django.core.mail import send_mail
+from django.conf import settings
+from utils.compress import compress_image, base64img
+from rest_framework import filters
+
+
+class MyBookView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request):
+        queryset = Book.objects.values().filter(author=request.user)
+        for i in queryset:
+            i['photo'] = request.build_absolute_uri(i['photo'])
+        return Response(queryset)
+
+    def post(self, request):
+        s = BookSer(data=request.data)
+        if s.is_valid():
+            title = s.validated_data['title']
+            img = base64img(s.validated_data['photo'], title.replace(" ", ""))
+            photo = compress_image(img, (400,400))
+            b = Book.objects.create(
+                author = request.user,
+                title = title,
+                about = s.validated_data['about'],
+                photo = photo
+            )
+            return Response({'status': 'ok'}, status=HTTP_200_OK)
+        else:
+            return Response(s.errors, status=HTTP_400_BAD_REQUEST)
+
+
+class BookView(viewsets.ReadOnlyModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset = Book.objects.all()
+    serializer_class = BookSer
+    filter_backends = [filters.SearchFilter,]
+    search_fields = ('title', 'about')
+    
+
+
+class ChapterView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, id):
+        queryset = Book.objects.get(id=id).chapter.values()
+        return Response(queryset)
+
+    def post(self, request, id):
+        s = ChapterSer(data=request.data)
+        if s.is_valid():
+            Chapter.objects.create(
+                title = s.validated_data['title'],
+                book_id = id
+            )
+            return Response({'status': 'ok'}, status=HTTP_200_OK)
+        else:
+            return Response(s.errors, status=HTTP_400_BAD_REQUEST)
+
+
+class TextView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, id):
+        queryset = Chapter.objects.get(id=id).content.values()
+        return Response(queryset)
+
+    def post(self, request, id):
+        s = TextSer(data=request.data)
+        if s.is_valid():
+            Text.objects.create(
+                text = s.validated_data['text'],
+                chapter_id = id
+            )
+            return Response({'status': 'ok'}, status=HTTP_200_OK)
+        else:
+            return Response(s.errors, status=HTTP_400_BAD_REQUEST)
+
+
+

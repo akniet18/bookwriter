@@ -1,0 +1,38 @@
+from django.db import models
+from django.conf import settings
+
+def photos_dir(instanse, filename):
+    folder_name = f"{instanse.title}/{filename}"
+    return folder_name
+
+class Book(models.Model):
+    author = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="my_book", blank=True, null=True)
+    title = models.CharField(max_length=100)
+    photo =  models.ImageField(upload_to = photos_dir, blank=True, null=True)
+    about = models.TextField(blank=True, null=True)
+    created_day = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.id}: {self.title}'
+
+    @property
+    def get_photo(self):
+        return "{0}{1}".format(settings.MEDIA_URL, self.photo.url)
+
+
+class Chapter(models.Model):
+    title = models.CharField(max_length=100)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="chapter")
+    created_day = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.id}: {self.title} - book_id: {self.book.id}'
+
+
+class Text(models.Model):
+    text = models.TextField()
+    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name="content")
+    created_day = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return f'book: {self.chapter.book.id} - chapter:{self.chapter.id}'
