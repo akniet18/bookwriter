@@ -14,6 +14,7 @@ from .serializers import *
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 import random
 from django.core.mail import send_mail
+from django.conf import settings
 
  
 class SocialLoginView(generics.GenericAPIView):
@@ -97,14 +98,14 @@ class Register(APIView):
                 return Response({'status': "already to exists"}, status=HTTP_400_BAD_REQUEST)
             else:
                 rand = random.randint(1000, 9999)
-                u = User.objects.create(email=email, code=f"rand")
+                u = User.objects.create(email=email, code=f"{rand}")
                 u.set_password(pwd)
                 u.save()
                 message = "code: " + str(rand)
                 send_mail(
                     'Book writer',
                     message,
-                    'akinakinov18@gmail.com',
+                    settings.EMAIL_HOST_USER,
                     [email,],
                     fail_silently=False,
                 )
