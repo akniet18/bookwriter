@@ -100,9 +100,10 @@ class Register(APIView):
                 u = User.objects.create(email=email, code=f"rand")
                 u.set_password(pwd)
                 u.save()
+                message = "code: " + str(rand)
                 send_mail(
                     'Book writer',
-                    f"code: {rand}",
+                    message,
                     'akinakinov18@gmail.com',
                     [email,],
                     fail_silently=False,
