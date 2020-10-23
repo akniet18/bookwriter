@@ -36,9 +36,9 @@ class MyBookView(APIView):
                 about = s.validated_data['about'],
                 photo = photo
             )
-            return Response({'status': 'ok'}, status=HTTP_200_OK)
+            return Response({'status': 'ok'})
         else:
-            return Response(s.errors, status=HTTP_400_BAD_REQUEST)
+            return Response(s.errors)
 
 
 class BookView(viewsets.ReadOnlyModelViewSet):
@@ -64,9 +64,9 @@ class ChapterView(APIView):
                 title = s.validated_data['title'],
                 book_id = id
             )
-            return Response({'status': 'ok'}, status=HTTP_200_OK)
+            return Response({'status': 'ok'})
         else:
-            return Response(s.errors, status=HTTP_400_BAD_REQUEST)
+            return Response(s.errors)
 
 
 class TextView(APIView):
@@ -83,9 +83,9 @@ class TextView(APIView):
                 text = s.validated_data['text'],
                 chapter_id = id
             )
-            return Response({'status': 'ok'}, status=HTTP_200_OK)
+            return Response({'status': 'ok'})
         else:
-            return Response(s.errors, status=HTTP_400_BAD_REQUEST)
+            return Response(s.errors)
 
 
 

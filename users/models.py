@@ -38,7 +38,7 @@ class CustomUserManager(BaseUserManager):
 
 
 def user_photos_dir(instanse, filename):
-    usrnme = f'{instanse.username}'
+    usrnme = f'{instanse.id}'
     folder_name = f"{usrnme}/{datetime.today().strftime('%d_%m_%Y')}/{filename}"
     return folder_name
 
@@ -46,7 +46,7 @@ def user_photos_dir(instanse, filename):
 class User(AbstractUser):
     birth_date = models.DateField(null=True, blank=True)
     email = models.EmailField(unique=True)
-    avatar = models.ImageField(upload_to = user_photos_dir, blank=True, null=True, default="default/user.svg")
+    avatar = models.ImageField(upload_to = user_photos_dir, blank=True, null=True, default="default/default.png")
     about = models.TextField(blank=True, null=True)
     code = models.CharField(max_length=10, blank=True, null=True)
     is_checked = models.BooleanField(default=False)

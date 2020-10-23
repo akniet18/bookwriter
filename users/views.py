@@ -95,7 +95,7 @@ class Register(APIView):
             email = s.validated_data['email']
             pwd = s.validated_data['password']
             if User.objects.filter(email = email).exists():
-                return Response({'status': "already to exists"}, status=HTTP_400_BAD_REQUEST)
+                return Response({'status': "already to exists"})
             else:
                 rand = random.randint(1000, 9999)
                 u = User.objects.create(email=email, code=f"{rand}")
@@ -109,9 +109,9 @@ class Register(APIView):
                     [email,],
                     fail_silently=False,
                 )
-                return Response({'status': "ok", "uid": u.id}, status=HTTP_200_OK)
+                return Response({'status': "ok", "uid": u.id})
         else:
-            return Response(s.errors, status=HTTP_400_BAD_REQUEST)
+            return Response(s.errors)
 
 
 class EmailValidated(APIView):
@@ -125,11 +125,11 @@ class EmailValidated(APIView):
                 t, _ = Token.objects.get_or_create(user=u)
                 u.is_checked = True
                 u.save()
-                return Response({'status': "ok", "key": t.key, "email": u.email, "uid": u.id}, status=HTTP_200_OK)
+                return Response({'status': "ok", "key": t.key, "email": u.email, "uid": u.id})
             else:
-                return Response({"status": "wrong code"}, status=HTTP_400_BAD_REQUEST)
+                return Response({"status": "wrong code"})
         else:
-            return Response(s.errors, status=HTTP_400_BAD_REQUEST)
+            return Response(s.errors)
 
 
 class Login(APIView):
@@ -145,14 +145,14 @@ class Login(APIView):
                 user = user[0]
                 valid = user.check_password(pwd)
                 if not valid:
-                    return Response({"status": "email or password is wrong"}, status=HTTP_400_BAD_REQUEST)
+                    return Response({"status": "email or password is wrong"})
                 # rand = random.randint(1000, 9999)
                 t, _ = Token.objects.get_or_create(user=user)
-                return Response({'status': "ok", "key": t.key, "uid": user.id, "email": user.email}, status=HTTP_200_OK)
+                return Response({'status': "ok", "key": t.key, "uid": user.id, "email": user.email})
             else:
-                return Response({'status': "not find"}, status=HTTP_400_BAD_REQUEST)
+                return Response({'status': "not find"})
         else:
-            return Response(s.errors, status=HTTP_400_BAD_REQUEST)
+            return Response(s.errors)
 
 
 class ForgotPwdSendEmail(APIView):
@@ -174,11 +174,11 @@ class ForgotPwdSendEmail(APIView):
                     [s.validated_data['email'],],
                     fail_silently=False,
                 )
-                return Response({'status': "ok", "uid": user.id}, status=HTTP_200_OK)
+                return Response({'status': "ok", "uid": user.id})
             else:
-                return Response({"status": "not found"}, status=HTTP_400_BAD_REQUEST)
+                return Response({"status": "not found"})
         else:
-            return Response(s.errors, status=HTTP_400_BAD_REQUEST)
+            return Response(s.errors)
 
 
 class PasswordChange(APIView):
@@ -192,9 +192,9 @@ class PasswordChange(APIView):
             if len(pwd) > 6:
                 user.set_password(pwd)
                 user.save()
-                return Response({'status': "ok"}, status=HTTP_200_OK)
+                return Response({'status': "ok"})
             else:
-                return Response({'status': "incorrect password"}, status=HTTP_200_OK)
+                return Response({'status': "incorrect password"})
         else:
             return Response(s.errors, HTTP_400_BAD_REQUEST)
 
@@ -203,3 +203,5 @@ class UserDetail(generics.RetrieveUpdateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = UserDetailSer
     queryset = User.objects.all()
+
+
