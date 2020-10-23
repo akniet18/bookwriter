@@ -11,6 +11,7 @@ class Book(models.Model):
     photo =  models.ImageField(upload_to = photos_dir, blank=True, null=True)
     about = models.TextField(blank=True, null=True)
     created_day = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    is_published = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.id}: {self.title}'
