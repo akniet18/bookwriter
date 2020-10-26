@@ -7,6 +7,7 @@ urlpatterns = [
     path("email/validate/", EmailValidated.as_view()),
     path("login/", Login.as_view()),
     path("detail/<pk>", UserDetail.as_view()),
+    path("change/avatar/", ChangeAvatar.as_view()),
 
     path("password/forget/email/", ForgotPwdSendEmail.as_view()),
     path("password/forget/change/", PasswordChange.as_view())

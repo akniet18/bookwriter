@@ -15,6 +15,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 import random
 from django.core.mail import send_mail
 from django.conf import settings
+from utils.compress import compress_image, base64img
 
  
 class SocialLoginView(generics.GenericAPIView):
@@ -204,4 +205,19 @@ class UserDetail(generics.RetrieveUpdateAPIView):
     serializer_class = UserDetailSer
     queryset = User.objects.all()
 
+
+class ChangeAvatar(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+        s = ChangeAvaSer(data=request.data)
+        if s.is_valid():
+            avatar = s.validated_data['avatar']
+            avatar = base64img(avatar, "ava")
+            avatar = compress_image(avatar, (400,400))
+            request.user.avatar = avatar
+            request.user.save()
+            return Response({'status': "ok"})
+        else:
+            return Response(s.errors)
 
