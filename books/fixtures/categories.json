@@ -1,0 +1,100 @@
+[
+    {
+		"model": "books.Category",
+		"pk": 1,
+		"fields": {
+			"name": "Фэнтези"
+		}
+    },
+    {
+		"model": "books.Category",
+		"pk": 2,
+		"fields": {
+			"name": "Романтика"
+		}
+    },
+    {
+		"model": "books.Category",
+		"pk": 3,
+		"fields": {
+			"name": "Приключения"
+		}
+    },
+    {
+		"model": "books.Category",
+		"pk": 4,
+		"fields": {
+			"name": "Детектив"
+		}
+    },
+    {
+		"model": "books.Category",
+		"pk": 5,
+		"fields": {
+			"name": "Драма"
+		}
+    },
+    {
+		"model": "books.Category",
+		"pk": 6,
+		"fields": {
+			"name": "Фантастика"
+		}
+    },
+    {
+		"model": "books.Category",
+		"pk": 7,
+		"fields": {
+			"name": "Экшн"
+		}
+    },
+    {
+		"model": "books.Category",
+		"pk": 8,
+		"fields": {
+			"name": "Эротика"
+		}
+    },
+    {
+		"model": "books.Category",
+		"pk": 9,
+		"fields": {
+			"name": "Юмор"
+		}
+    },
+    {
+		"model": "books.Category",
+		"pk": 10,
+		"fields": {
+			"name": "Мистика"
+		}
+    },
+    {
+		"model": "books.Category",
+		"pk": 11,
+		"fields": {
+			"name": "Повседневность"
+		}
+    },
+    {
+		"model": "books.Category",
+		"pk": 12,
+		"fields": {
+			"name": "Психология"
+		}
+    },
+    {
+		"model": "books.Category",
+		"pk": 13,
+		"fields": {
+			"name": "Хоррор"
+		}
+    },
+    {
+		"model": "books.Category",
+		"pk": 14,
+		"fields": {
+			"name": "Даркфик"
+		}
+	}
+]

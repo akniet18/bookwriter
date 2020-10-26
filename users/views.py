@@ -221,3 +221,4 @@ class ChangeAvatar(APIView):
         else:
             return Response(s.errors)
 
+

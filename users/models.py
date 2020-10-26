@@ -52,6 +52,8 @@ class User(AbstractUser):
     is_checked = models.BooleanField(default=False)
     username = models.CharField(max_length=50, blank=True, null=True)
 
+    favorite_books = models.ManyToManyField("books.Book", related_name="fav")
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = CustomUserManager()
