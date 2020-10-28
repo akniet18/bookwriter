@@ -44,13 +44,13 @@ class MyBookView(APIView):
 
 class MostViewedBooks(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.AllowAny,)
-    queryset = Book.objects.all().order_by('-views')
+    queryset = Book.objects.filter(is_published=True).order_by('-views')
     serializer_class = BookSer
 
 
 class BookView(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.AllowAny,)
-    queryset = Book.objects.all()
+    queryset = Book.objects.filter(is_published=True)
     serializer_class = BookSer
     filter_backends = [filters.SearchFilter,DjangoFilterBackend]
     search_fields = ('title', 'about')
