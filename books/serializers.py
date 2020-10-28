@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+from users.serializers import UserDetailSer
 
 class CategorySer(serializers.ModelSerializer):
     class Meta:
@@ -8,6 +9,7 @@ class CategorySer(serializers.ModelSerializer):
 
 class BookSer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
+    author = UserDetailSer(read_only=True)
     title = serializers.CharField()
     about = serializers.CharField()
     photo_url = serializers.SerializerMethodField('get_avatar_url', read_only=True)
