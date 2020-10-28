@@ -53,6 +53,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=50, blank=True, null=True)
 
     favorite_books = models.ManyToManyField("books.Book", related_name="fav")
+    read_books = models.ManyToManyField("books.Book", related_name="read")
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

@@ -19,7 +19,6 @@ from utils.compress import compress_image, base64img
 
  
 class SocialLoginView(generics.GenericAPIView):
-    """Log in using facebook"""
     serializer_class = SocialSerializer
     permission_classes = [permissions.AllowAny]
  

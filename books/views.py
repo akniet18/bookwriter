@@ -34,8 +34,8 @@ class MyBookView(APIView):
                 author = request.user,
                 title = title,
                 about = s.validated_data['about'],
-                photo = photo,
-                category = Category.objects.get(id=s.validated_data['category_id'])
+                photo = photo
+                # category = Category.objects.get(id=s.validated_data['category_id'])
             )
             return Response({'status': 'ok'})
         else:
@@ -56,6 +56,12 @@ class BookView(viewsets.ReadOnlyModelViewSet):
     search_fields = ('title', 'about')
     filter_fields = ('category',)
     
+
+# class Read(APIView):
+#     permission_classes = (permissions.IsAuthenticated,)
+
+#     def get(self, request):
+
 
 
 class ChapterView(APIView):
@@ -99,7 +105,6 @@ class TextView(APIView):
             return Response(s.errors)
 
 
-
 class FavsBooks(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -116,6 +121,27 @@ class FavsBooks(APIView):
                 request.user.favorite_books.remove(book)
             else:
                 request.user.favorite_books.add(book)
+            return Response({'status': 'ok'})
+        else:
+            return Response(s.errors)
+
+
+class IRead(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request):
+        books = request.user.read_books.all()
+        s = BookSer(books, many=True, context={'request': request})
+        return Response(s.data)
+
+    def post(self, request):
+        s = BooksId(data=request.data)
+        if s.is_valid():
+            book = Book.objects.get(id=s.validated_data['id'])
+            if book in request.user.read_books.all():
+                request.user.read_books.remove(book)
+            else:
+                request.user.read_books.add(book)
             return Response({'status': 'ok'})
         else:
             return Response(s.errors)

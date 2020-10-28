@@ -9,4 +9,5 @@ urlpatterns = [
     path("text/<id>", TextView.as_view()),
 
     path('favs/', FavsBooks.as_view()),
+    path('i/read/', IRead.as_view())
 ]
