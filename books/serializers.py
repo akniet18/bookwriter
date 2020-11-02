@@ -13,7 +13,7 @@ class BookSer(serializers.Serializer):
     title = serializers.CharField()
     about = serializers.CharField()
     photo_url = serializers.SerializerMethodField('get_avatar_url', read_only=True)
-    category = CategorySer(read_only=True)
+    category = CategorySer(read_only=True, many=True)
     # category_id = serializers.IntegerField(write_only=True)
     photo = serializers.CharField(write_only = True)
     views = serializers.IntegerField(read_only=True)
@@ -25,9 +25,15 @@ class BookSer(serializers.Serializer):
 class ChapterSer(serializers.Serializer):
     title = serializers.CharField()
 
+
 class TextSer(serializers.Serializer):
     text = serializers.CharField()
     
 
 class BooksId(serializers.Serializer):
     id = serializers.IntegerField()
+
+
+class AddCategorySer(serializers.Serializer):
+    id = serializers.IntegerField()
+    categories = serializers.ListField()

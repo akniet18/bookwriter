@@ -57,6 +57,31 @@ class BookView(viewsets.ReadOnlyModelViewSet):
     filter_fields = ('category',)
     
 
+class AddCategory(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+        s = AddCategorySer(data=request.data)
+        if s.is_valid():
+            book = Book.objects.get(id=s.validated_data['id'])
+            c = s.validated_data['categories']
+            for i in c:
+                cat = Category.objects.get(id=int(i))
+                if cat not in book.category.all():
+                    book.category.add(cat)
+            return Response({'status': 'ok'})
+        else:
+            return Response(s.errors)
+
+
+class UserBooks(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, id):
+        q = Book.objects.filter(author_id=id, is_published=True)
+        s = BookSer(q, many=True, context={'request': request})
+        return Response(s.data)
+
 # class Read(APIView):
 #     permission_classes = (permissions.IsAuthenticated,)
 

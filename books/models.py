@@ -20,7 +20,7 @@ class Book(models.Model):
     about = models.TextField(blank=True, null=True)
     created_day = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     is_published = models.BooleanField(default=False)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="books", blank=True, null=True)
+    category = models.ManyToManyField(Category, related_name="books")
     views = models.IntegerField(default=0, blank=True, null=True)
 
     def __str__(self):
