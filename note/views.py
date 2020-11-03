@@ -14,19 +14,21 @@ from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
 from utils.compress import compress_image, base64img
 from rest_framework import filters
-
+from books.models import Book
 
 class MyNote(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request):
-        q = request.user.my_notes.all().values()
-        return Response(q)
+        q = Note.objects.filter(user=request.user)
+        s = GetNoteSer(q, many=True,context={'request': request})
+        return Response(s.data)
 
     def post(self, request):
         s = MyNoteSer(data=request.data)
         if s.is_valid():
-            Note.objects.create(text=s.validated_data['text'], user=request.user)
+            book = Book.objects.get(id=s.validated_data['book'])
+            Note.objects.create(text=s.validated_data['text'], user=request.user, book=book)
             return Response({'status': 'ok'})
         else:
             return Response(s.errors)
