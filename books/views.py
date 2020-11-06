@@ -110,6 +110,16 @@ class ChapterView(APIView):
         else:
             return Response(s.errors)
 
+    def put(self, request, id):
+        s = ChapterSer(data=request.data)
+        if s.is_valid():
+            c = Chapter.objects.get(id=id)
+            c.title = s.validated_data['title']
+            c.save()
+            return Response({'status': 'ok'})
+        else:
+            return Response(s.errors)
+
 
 class TextView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -129,6 +139,15 @@ class TextView(APIView):
         else:
             return Response(s.errors)
 
+    def put(self, request, id):
+        s = TextSer(data=request.data)
+        if s.is_valid():
+            t = Text.objects.get(id=id)
+            t.text = s.validated_data['text']
+            t.save()
+            return Response({'status': 'ok'})
+        else:
+            return Response(s.errors)
 
 class FavsBooks(APIView):
     permission_classes = (permissions.IsAuthenticated,)
