@@ -102,9 +102,13 @@ class ChapterView(APIView):
     def post(self, request, id):
         s = ChapterSer(data=request.data)
         if s.is_valid():
-            Chapter.objects.create(
+            c = Chapter.objects.create(
                 title = s.validated_data['title'],
                 book_id = id
+            )
+            Text.objects.create(
+                text = " ",
+                chapter_id = c.id
             )
             return Response({'status': 'ok'})
         else:
@@ -131,10 +135,11 @@ class TextView(APIView):
     def post(self, request, id):
         s = TextSer(data=request.data)
         if s.is_valid():
-            Text.objects.create(
-                text = s.validated_data['text'],
+            t = Text.objects.get(
                 chapter_id = id
             )
+            t.text = s.validated_data['text']
+            t.save()
             return Response({'status': 'ok'})
         else:
             return Response(s.errors)
