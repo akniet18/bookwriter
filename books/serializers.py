@@ -37,3 +37,13 @@ class BooksId(serializers.Serializer):
 class AddCategorySer(serializers.Serializer):
     id = serializers.IntegerField()
     categories = serializers.ListField()
+
+
+class TrackSer(serializers.Serializer):
+    uri = serializers.CharField()
+
+
+class OptionsSer(serializers.Serializer):
+    ranges = serializers.ListField()
+    color = serializers.CharField()
+    

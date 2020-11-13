@@ -129,8 +129,15 @@ class TextView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, id):
-        queryset = Chapter.objects.get(id=id).content.values()
-        return Response(queryset)
+        # queryset = Chapter.objects.get(id=id).content.values()
+        t = Text.objects.get(chapter_id=id)
+        op = TextOptions.objects.filter(text=t)
+        q = {'text': t.text, "id": t.id}
+        words = []
+        for i in op:
+            words.append({'range': i.ranges, 'color': i.color})
+        q['words'] = words
+        return Response(q)
 
     def post(self, request, id):
         s = TextSer(data=request.data)
@@ -153,6 +160,43 @@ class TextView(APIView):
             return Response({'status': 'ok'})
         else:
             return Response(s.errors)
+
+
+class Track(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, id):
+        t = Track.objects.values().filter(chapter_id = id)
+        return Response(t)
+
+    def post(self, request, id):
+        s = TrackSer(data=request.data)
+        if s.is_valid():
+            Track.objects.create(uri=s.validated_data['uri'], chapter_id=id)
+            return Response({'status': 'ok'})
+        else:
+            return Response(s.errors)
+
+    def delete(self, request, id):
+        Track.objects.get(id=id).delete()
+        return Response({'status':'ok'})
+
+
+class OptionsApi(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, id):
+        s = OptionsSer(data=request.data)
+        if s.is_valid():
+            TextOptions.objects.create(
+                ranges = s.validated_data['ranges'],
+                color = s.validated_data['color'],
+                text_id = id
+            )
+            return Response({'status': 'ok'})
+        else:
+            return Response(s.errors)
+
 
 class FavsBooks(APIView):
     permission_classes = (permissions.IsAuthenticated,)

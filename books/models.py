@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.contrib.postgres.fields import ArrayField
 
 
 class Category(models.Model):
@@ -47,3 +48,20 @@ class Text(models.Model):
 
     def __str__(self):
         return f'book: {self.chapter.book.id} - chapter:{self.chapter.id}'
+
+
+class Track(models.Model):
+    uri = models.CharField(max_length=500)
+    chapter = models.ForeignKey("books.Chapter", on_delete=models.CASCADE, related_name="tracks")
+
+    def __str__(self):
+        return f'{self.chapter.id} - {self.chapter.title}'
+
+
+class TextOptions(models.Model):
+    ranges = ArrayField(models.BigIntegerField())
+    color = models.CharField(max_length=50)
+    text = models.ForeignKey("books.Text", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.text.id}'
