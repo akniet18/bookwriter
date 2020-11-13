@@ -8,6 +8,8 @@ urlpatterns = [
     path("most/viewed/", MostViewedBooks.as_view({'get': 'list'})),
     path("chapter/<id>", ChapterView.as_view()),
     path("text/<id>", TextView.as_view()),
+    path('words/<id>', OptionsApi.as_view()),
+    path('track/<id>', TrackApi.as_view()),
     path('add/category/', AddCategory.as_view()),
 
     path('favs/', FavsBooks.as_view()),

@@ -162,7 +162,7 @@ class TextView(APIView):
             return Response(s.errors)
 
 
-class Track(APIView):
+class TrackApi(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, id):
