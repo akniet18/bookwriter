@@ -172,7 +172,8 @@ class TrackApi(APIView):
     def post(self, request, id):
         s = TrackSer(data=request.data)
         if s.is_valid():
-            Track.objects.create(uri=s.validated_data['uri'], chapter_id=id)
+            Track.objects.create(uri=s.validated_data['uri'], chapter_id=id, duration=s.validated_data['duration'],
+            ranges=s.validated_data.get('ranges', None))
             return Response({'status': 'ok'})
         else:
             return Response(s.errors)
