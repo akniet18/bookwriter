@@ -41,8 +41,8 @@ class AddCategorySer(serializers.Serializer):
 
 class TrackSer(serializers.Serializer):
     uri = serializers.CharField()
-    duration = serializers.IntegerField()
-    ranges = serializers.ListField()
+    duration = serializers.IntegerField(required=False)
+    ranges = serializers.ListField(required=False)
 
 
 class OptionsSer(serializers.Serializer):
