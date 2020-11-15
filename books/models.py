@@ -52,6 +52,7 @@ class Text(models.Model):
 
 class Track(models.Model):
     uri = models.CharField(max_length=500)
+    track_name = models.CharField(max_length=500, blank=True, null=True)
     duration = models.CharField(max_length=100, blank=True, null=True)
     ranges = ArrayField(models.FloatField(), blank=True, null=True)
     chapter = models.ForeignKey("books.Chapter", on_delete=models.CASCADE, related_name="tracks")

@@ -40,6 +40,7 @@ class AddCategorySer(serializers.Serializer):
 
 
 class TrackSer(serializers.Serializer):
+    track_name = serializers.CharField()
     uri = serializers.CharField()
     duration = serializers.IntegerField(required=False)
     ranges = serializers.ListField(required=False)
