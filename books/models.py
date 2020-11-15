@@ -52,6 +52,8 @@ class Text(models.Model):
 
 class Track(models.Model):
     uri = models.CharField(max_length=500)
+    duration = models.CharField(max_length=100, blank=True, null=True)
+    ranges = ArrayField(models.FloatField(), blank=True, null=True)
     chapter = models.ForeignKey("books.Chapter", on_delete=models.CASCADE, related_name="tracks")
 
     def __str__(self):
@@ -61,6 +63,7 @@ class Track(models.Model):
 class TextOptions(models.Model):
     ranges = ArrayField(models.BigIntegerField())
     color = models.CharField(max_length=50)
+    word = models.TextField(blank=True, null=True)
     text = models.ForeignKey("books.Text", on_delete=models.CASCADE)
 
     def __str__(self):

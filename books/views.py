@@ -135,7 +135,7 @@ class TextView(APIView):
         q = {'text': t.text, "id": t.id}
         words = []
         for i in op:
-            words.append({'range': i.ranges, 'color': i.color})
+            words.append({'range': i.ranges, 'color': i.color, 'word': i.word})
         q['words'] = words
         return Response(q)
 
@@ -191,6 +191,7 @@ class OptionsApi(APIView):
             TextOptions.objects.create(
                 ranges = s.validated_data['ranges'],
                 color = s.validated_data['color'],
+                word = s.validated_data['word'],
                 text_id = id
             )
             return Response({'status': 'ok'})
