@@ -47,7 +47,7 @@ class Text(models.Model):
     created_day = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
-        return f'book: {self.chapter.book.id} - chapter:{self.chapter.id}'
+        return f'id: {self.id} - book: {self.chapter.book.id} - chapter:{self.chapter.id}'
 
 
 class Track(models.Model):
