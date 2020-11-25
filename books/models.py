@@ -51,7 +51,8 @@ class Text(models.Model):
 
 
 class Track(models.Model):
-    uri = models.CharField(max_length=500)
+    uri = models.CharField(max_length=500, blank=True, null=True)
+    audio = models.FileField(upload_to=None, max_length=100, blank=True, null=True)
     track_name = models.CharField(max_length=500, blank=True, null=True)
     duration = models.CharField(max_length=100, blank=True, null=True)
     ranges = ArrayField(models.FloatField(), blank=True, null=True)

@@ -9,15 +9,7 @@
 </head>
 <body>
 
-<script type="text/javascript" src="https://auth.robokassa.ru/Merchant/bundle/robokassa_iframe.js"></script>
-<input type="submit" value="Оплатить" onclick="Robokassa.StartPayment({
-			MerchantLogin: 'admin',
-			OutSum: '11.00',
-			Description: 'Оплата заказа в Тестовом магазине ROBOKASSA',
-			shp_Item: '1',
-			Culture: 'ru', 
-			Encoding: 'utf-8',
-			SignatureValue: '3925b771e47d405cbcbb492daa936824'})">
+<a href="https://api.paybox.money/payment.php?pg_merchant_id=534896&pg_amount=5000&pg_currency=KZT&pg_description=test&pg_salt=TSbLF8OyRg3uTuur&pg_language=ru&pg_sig=5554cff3618cc79db8438bb8bb5c8538">Оплатить «test» через PayBox.money</a>
 {% comment %}     
 <script>
 var widget = new cp.CloudPayments();
