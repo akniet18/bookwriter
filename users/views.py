@@ -80,7 +80,8 @@ class SocialLoginView(generics.GenericAPIView):
             response = {
                 "email": authenticated_user.email,
                 "key": token.key,
-                "uid": authenticated_user.id
+                "uid": authenticated_user.id,
+                "status": 'ok'
             }
             return Response(status=status.HTTP_200_OK, data=response)
 
