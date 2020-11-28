@@ -49,10 +49,12 @@ class Text(models.Model):
     def __str__(self):
         return f'id: {self.id} - book: {self.chapter.book.id} - chapter:{self.chapter.id}'
 
-
+def audio_dir(instanse, filename):
+    folder_name = f"{instanse.chapter.title}/{filename}"
+    return folder_name
 class Track(models.Model):
     uri = models.CharField(max_length=500, blank=True, null=True)
-    audio = models.FileField(upload_to=None, max_length=100, blank=True, null=True)
+    audio = models.FileField(upload_to=audio_dir, max_length=100, blank=True, null=True)
     track_name = models.CharField(max_length=500, blank=True, null=True)
     duration = models.CharField(max_length=100, blank=True, null=True)
     ranges = ArrayField(models.FloatField(), blank=True, null=True)
