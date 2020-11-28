@@ -53,7 +53,7 @@ class GettrackSer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_avatar_url(self, obj):
-        return self.context['request'].build_absolute_uri(obj.photo.url)
+        return self.context['request'].build_absolute_uri(obj.audio.url)
 
 
 class OptionsSer(serializers.Serializer):
