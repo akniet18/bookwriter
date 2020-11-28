@@ -101,7 +101,7 @@ class ChapterView(APIView):
         for i in queryset:
             qq = {
                 'title': i.title,
-                'book': i.book.id,
+                'book_id': i.book.id,
                 'created_day': i.created_day,
                 'audios': len(i.tracks.all())
             }
