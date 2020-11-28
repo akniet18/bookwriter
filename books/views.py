@@ -96,8 +96,17 @@ class ChapterView(APIView):
         book = Book.objects.get(id=id)
         book.views += 1
         book.save()
-        queryset = book.chapter.values()
-        return Response(queryset)
+        queryset = book.chapter.all()
+        q = []
+        for i in queryset:
+            qq = {
+                'title': i.title,
+                'book': i.book.id,
+                'created_day': i.created_day,
+                'audios': len(i.tracks.all())
+            }
+            q.append(qq)
+        return Response(q)
 
     def post(self, request, id):
         s = ChapterSer(data=request.data)
