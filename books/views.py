@@ -166,7 +166,7 @@ class TrackApi(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, id):
-        t = Track.objects.values('audio', 'id').filter(chapter_id = id)
+        t = Track.objects.values('audio', 'id', 'track_name', 'ranges', 'duration').filter(chapter_id = id)
         return Response(t)
 
     def post(self, request, id):
