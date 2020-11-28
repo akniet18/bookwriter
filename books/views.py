@@ -176,18 +176,19 @@ class TrackApi(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, id):
-        t = Track.objects.values('audio', 'id', 'track_name', 'ranges', 'duration').filter(chapter_id = id)
-        return Response(t)
+        t = Track.objects.filter(chapter_id = id)
+        s = GettrackSer(t, many=True, context={'request': request})
+        return Response(s.data)
 
     def post(self, request, id):
         s = TrackSer(data=request.data)
         if s.is_valid():
             a = s.validated_data['audio']
-            audio = base642audio(a, s.validated_data['track_name'])
+            # audio = base642audio(a, s.validated_data['track_name'])
             Track.objects.create(
                 # uri=s.validated_data['uri'], 
                 chapter_id=id,
-                audio = audio,
+                audio = a,
                 duration=s.validated_data.get('duration', None),
                 ranges=s.validated_data.get('ranges', None),
                 track_name = s.validated_data['track_name']

@@ -40,20 +40,20 @@ class AddCategorySer(serializers.Serializer):
 
 
 class TrackSer(serializers.Serializer):
-    audio = serializers.CharField()
+    audio = serializers.FileField()
     duration = serializers.CharField(required=False)
     ranges = serializers.ListField(required=False)
     track_name = serializers.CharField()
 
 
-# class GettrackSer(serializers.ModelSerializer):
-#     audio = 
-#     class Meta:
-#         model = Track
-#         fields = "__all__"
+class GettrackSer(serializers.ModelSerializer):
+    audio = serializers.SerializerMethodField('get_avatar_url', read_only=True)
+    class Meta:
+        model = Track
+        fields = "__all__"
 
-#     def get_avatar_url(self, obj):
-#         return self.context['request'].build_absolute_uri(obj.photo.url)
+    def get_avatar_url(self, obj):
+        return self.context['request'].build_absolute_uri(obj.photo.url)
 
 
 class OptionsSer(serializers.Serializer):
