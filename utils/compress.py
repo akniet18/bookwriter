@@ -23,3 +23,8 @@ def base64img(imgn, name):
     im = (imgn.replace(' ', '+')+"===")
     data = ContentFile(base64.b64decode(im), name=str(name)+'.jpg')
     return data
+
+def base642audio(base64a, name):
+    im = (base64a.replace(' ', '+')+"===")
+    data = ContentFile(base64.b64decode(im), name=str(name)+'.mp3')
+    return data

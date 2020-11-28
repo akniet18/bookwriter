@@ -12,7 +12,7 @@ import random
 from django.core.mail import send_mail
 from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
-from utils.compress import compress_image, base64img
+from utils.compress import compress_image, base64img, base642audio
 from rest_framework import filters
 
 
@@ -172,13 +172,15 @@ class TrackApi(APIView):
     def post(self, request, id):
         s = TrackSer(data=request.data)
         if s.is_valid():
+            a = s.validated_data['audio']
+            audio = base642audio(a, s.validated_data['track_name'])
             Track.objects.create(
                 # uri=s.validated_data['uri'], 
                 chapter_id=id,
-                audio = s.validated_data['audio']
-                # duration=s.validated_data.get('duration', None),
-                # ranges=s.validated_data.get('ranges', None),
-                # track_name = s.validated_data['track_name']
+                audio = audio,
+                duration=s.validated_data.get('duration', None),
+                ranges=s.validated_data.get('ranges', None),
+                track_name = s.validated_data['track_name']
             )
             return Response({'status': 'ok'})
         else:

@@ -41,6 +41,9 @@ class AddCategorySer(serializers.Serializer):
 
 class TrackSer(serializers.Serializer):
     audio = serializers.FileField()
+    duration = serializers.CharField(required=False)
+    ranges = serializers.ListField(required=False)
+    track_name = serializers.CharField()
 
 
 class OptionsSer(serializers.Serializer):
