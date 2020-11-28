@@ -46,6 +46,16 @@ class TrackSer(serializers.Serializer):
     track_name = serializers.CharField()
 
 
+# class GettrackSer(serializers.ModelSerializer):
+#     audio = 
+#     class Meta:
+#         model = Track
+#         fields = "__all__"
+
+#     def get_avatar_url(self, obj):
+#         return self.context['request'].build_absolute_uri(obj.photo.url)
+
+
 class OptionsSer(serializers.Serializer):
     ranges = serializers.ListField()
     color = serializers.CharField()

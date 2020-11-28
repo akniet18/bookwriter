@@ -100,6 +100,7 @@ class ChapterView(APIView):
         q = []
         for i in queryset:
             qq = {
+                "id": i.id,
                 'title': i.title,
                 'book_id': i.book.id,
                 'created_day': i.created_day,
