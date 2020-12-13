@@ -60,4 +60,5 @@ class OptionsSer(serializers.Serializer):
     ranges = serializers.ListField()
     color = serializers.CharField()
     word = serializers.CharField()
+    types = serializers.CharField(required=False)
     
