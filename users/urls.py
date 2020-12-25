@@ -10,5 +10,7 @@ urlpatterns = [
     path("change/avatar/", ChangeAvatar.as_view()),
 
     path("password/forget/email/", ForgotPwdSendEmail.as_view()),
-    path("password/forget/change/", PasswordChange.as_view())
+    path("password/forget/change/", PasswordChange.as_view()),
+
+    path("private/policy", privatepolicy)
 ]

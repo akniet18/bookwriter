@@ -23,16 +23,13 @@ class SocialLoginView(generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
  
     def post(self, request):
-        """Authenticate user through the provider and access_token"""
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         # provider = serializer.data.get('provider', None)
         strategy = load_strategy(request)
- 
         try:
             backend = load_backend(strategy=strategy, name="facebook",
             redirect_uri=None)
- 
         except MissingBackend:
             return Response({'error': 'Please provide a valid provider'},
             status=status.HTTP_400_BAD_REQUEST)
@@ -222,3 +219,6 @@ class ChangeAvatar(APIView):
             return Response(s.errors)
 
 
+def privatepolicy(request):
+    context = {'context': ""}
+    return render(request, 'index.html', context)

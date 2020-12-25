@@ -2,10 +2,13 @@ from rest_framework import serializers
 from .models import *
 from users.serializers import UserDetailSer
 
+
+
 class CategorySer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = "__all__"
+
 
 class BookSer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
