@@ -16,8 +16,13 @@ import random
 from django.core.mail import send_mail
 from django.conf import settings
 from utils.compress import compress_image, base64img
+import requests
+from datetime import timedelta
+from django.utils import timezone
+from social_core.utils import handle_http_errors
+import jwt
 
- 
+
 class SocialLoginView(generics.GenericAPIView):
     serializer_class = SocialSerializer
     permission_classes = [permissions.AllowAny]
@@ -82,6 +87,93 @@ class SocialLoginView(generics.GenericAPIView):
             }
             return Response(status=status.HTTP_200_OK, data=response)
 
+
+
+
+class AppleOAuth2(BaseOAuth2):
+    """apple authentication backend"""
+
+    name = 'apple'
+    ACCESS_TOKEN_URL = 'https://appleid.apple.com/auth/token'
+    SCOPE_SEPARATOR = ','
+    ID_KEY = 'uid'
+
+    @handle_http_errors
+    def do_auth(self, access_token, *args, **kwargs):
+        """
+        Finish the auth process once the access_token was retrieved
+        Get the email from ID token received from apple
+        """
+        response_data = {}
+        client_id, client_secret = self.get_key_and_secret()
+
+        headers = {'content-type': "application/x-www-form-urlencoded"}
+        data = {
+            'client_id': client_id,
+            'client_secret': client_secret,
+            'code': access_token,
+            'grant_type': 'authorization_code',
+            'redirect_uri': 'https://example-app.com/redirect'
+        }
+
+        res = requests.post(AppleOAuth2.ACCESS_TOKEN_URL, data=data, headers=headers)
+        response_dict = res.json()
+        id_token = response_dict.get('id_token', None)
+
+        if id_token:
+            decoded = jwt.decode(id_token, '', verify=False)
+            response_data.update({'email': decoded['email']}) if 'email' in decoded else None
+            response_data.update({'uid': decoded['sub']}) if 'sub' in decoded else None
+
+        response = kwargs.get('response') or {}
+        response.update(response_data)
+        response.update({'access_token': access_token}) if 'access_token' not in response else None
+
+        # kwargs.update({'response': response, 'backend': self})
+        return Response(response)
+
+    def get_user_details(self, response):
+        email = response.get('email', None)
+        # token, _ = Token.objects.get_or_create(user=authenticated_user)
+        details = {
+            'email': email,
+        }
+        return details
+
+    def get_key_and_secret(self):
+        headers = {
+            'kid': settings.SOCIAL_AUTH_APPLE_ID_KEY
+        }
+        payload = {
+            'iss': settings.SOCIAL_AUTH_APPLE_ID_TEAM,
+            'iat': timezone.now(),
+            'exp': timezone.now() + timedelta(days=180),
+            'aud': 'https://appleid.apple.com',
+            'sub': settings.SOCIAL_AUTH_APPLE_ID_CLIENT,
+        }
+        client_secret = jwt.encode(
+            payload, 
+            settings.SOCIAL_AUTH_APPLE_SECRET, 
+            algorithm='ES256', 
+            headers=headers
+        ).decode("utf-8")
+        
+        return settings.CLIENT_ID, client_secret
+
+
+class AppleAuth(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request):
+        s = SocialSerializer(data=request.data)
+        if s.is_valid():
+            access_token = s.validated_data['access_token']
+            appleAuth = AppleOAuth2()
+            res = appleAuth.do_auth(access_token)
+            print(res)
+            return Response({"status":"ok"})
+        else:
+            return Response(s.errors)
 
 
 class Register(APIView):
@@ -220,5 +312,15 @@ class ChangeAvatar(APIView):
 
 
 def privatepolicy(request):
+    context = {'context': ""}
+    return render(request, 'index.html', context)
+
+
+def usersA(request):
+    context = {'context': ""}
+    return render(request, 'index.html', context)
+
+
+def delete(request):
     context = {'context': ""}
     return render(request, 'index.html', context)

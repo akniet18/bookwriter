@@ -141,10 +141,10 @@ FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 
-SOCIAL_AUTH_APPLE_ID_CLIENT = '...'             # Your client_id com.application.your, aka "Service ID"
-SOCIAL_AUTH_APPLE_ID_TEAM = '...'               # Your Team ID, ie K2232113
-SOCIAL_AUTH_APPLE_ID_KEY = '...'                # Your Key ID, ie Y2P99J3N81K
-SOCIAL_AUTH_APPLE_ID_SECRET = ""
+SOCIAL_AUTH_APPLE_ID_CLIENT = 'com.kz.BOMU'             # Your client_id com.application.your, aka "Service ID"
+SOCIAL_AUTH_APPLE_ID_TEAM = 'S4N9N5DMJM'               # Your Team ID, ie K2232113
+SOCIAL_AUTH_APPLE_ID_KEY = '6BBS726JCN'                # Your Key ID, ie Y2P99J3N81K
+SOCIAL_AUTH_APPLE_SECRET = "MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgRj27MQ89SPYvgLU7vv7XtoWf6XRnybV4g31e56Nr10ygCgYIKoZIzj0DAQehRANCAAT+wKEHgboaSHE8wZI+Qd7qw/+5P6ewmLmg8ITDZPoukXdDAdSE3hCpWn2sWtFTwhJhQCWU63Q49mOLk9Lu20hw"
 SOCIAL_AUTH_APPLE_ID_SCOPE = ['email', 'name']
 SOCIAL_AUTH_APPLE_ID_EMAIL_AS_USERNAME = True   
 
