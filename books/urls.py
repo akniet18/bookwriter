@@ -2,12 +2,12 @@ from django.urls import path, include
 from .views import *
 
 urlpatterns = [
-    path("", BookView.as_view({'get': 'list'})),
-    path("my/", MyBookView.as_view()),
+    path('', BookView.as_view({'get': 'list'})),
+    path('my/', MyBookView.as_view()),
     path('user/<id>', UserBooks.as_view()),
-    path("most/viewed/", MostViewedBooks.as_view({'get': 'list'})),
-    path("chapter/<id>", ChapterView.as_view()),
-    path("text/<id>", TextView.as_view()),
+    path('most/viewed/', MostViewedBooks.as_view({'get': 'list'})),
+    path('chapter/<id>', ChapterView.as_view()),
+    path('text/<id>', TextView.as_view()),
     path('words/<id>', OptionsApi.as_view()),
     path('track/<id>', TrackApi.as_view()),
     path('add/category/', AddCategory.as_view()),

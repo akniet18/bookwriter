@@ -69,9 +69,25 @@ class AddCategory(APIView):
                 cat = Category.objects.get(id=int(i))
                 if cat not in book.category.all():
                     book.category.add(cat)
+            book.is_published = True
+            book.save()
             return Response({'status': 'ok'})
         else:
             return Response(s.errors)
+
+
+# class Published(APIView):
+#     permission_classes = (permissions.IsAuthenticated,)
+
+#     def post(self, request):
+#         s = BooksId(data=request.data)
+#         if s.is_valid():
+#             b = Book.objects.get(id = s.validated_data['id'])
+#             b.is_published = True
+#             b.save()
+#             return Response({"status": "ok"})
+#         else:
+#             return Response(s.errors)
 
 
 class UserBooks(APIView):
