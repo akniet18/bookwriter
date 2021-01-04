@@ -276,3 +276,10 @@ class IRead(APIView):
             return Response({'status': 'ok'})
         else:
             return Response(s.errors)
+
+
+class TestApi(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request):
+        return Response({'status': 'ok'})
