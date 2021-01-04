@@ -13,5 +13,6 @@ urlpatterns = [
     path('add/category/', AddCategory.as_view()),
 
     path('favs/', FavsBooks.as_view()),
-    path('i/read/', IRead.as_view())
+    path('i/read/', IRead.as_view()),
+    path('test/', TestApi.as_view())
 ]
