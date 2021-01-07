@@ -191,9 +191,9 @@ class Register(APIView):
                 u = User.objects.create(email=email, code=f"{rand}")
                 u.set_password(pwd)
                 u.save()
-                message = "code: " + str(rand)
+                message = "Ваш код подтверждения для BOMU: " + str(rand)
                 send_mail(
-                    'Book writer',
+                    'BOMU',
                     message,
                     settings.EMAIL_HOST_USER,
                     [email,],
