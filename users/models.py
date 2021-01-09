@@ -49,6 +49,7 @@ class User(AbstractUser):
     is_checked = models.BooleanField(default=False)
     username = models.CharField(max_length=50, blank=True, null=True, unique=True)
 
+
     favorite_books = models.ManyToManyField("books.Book", related_name="fav")
     read_books = models.ManyToManyField("books.Book", related_name="read")
 

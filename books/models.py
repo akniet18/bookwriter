@@ -23,6 +23,7 @@ class Book(models.Model):
     is_published = models.BooleanField(default=False)
     category = models.ManyToManyField(Category, related_name="books")
     views = models.IntegerField(default=0, blank=True, null=True)
+    
     language = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
