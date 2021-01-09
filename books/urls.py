@@ -5,7 +5,7 @@ urlpatterns = [
     path('<lang>', BookView.as_view({'get': 'list'})),
     path('my/', MyBookView.as_view()),
     path('user/<id>', UserBooks.as_view()),
-    path('most/viewed/', MostViewedBooks.as_view({'get': 'list'})),
+    path('most/viewed/<lang>', MostViewedBooks.as_view({'get': 'list'})),
     path('chapter/<id>', ChapterView.as_view()),
     path('text/<id>', TextView.as_view()),
     path('words/<id>', OptionsApi.as_view()),
