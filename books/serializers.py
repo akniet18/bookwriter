@@ -21,6 +21,7 @@ class BookSer(serializers.Serializer):
     photo = serializers.CharField(write_only = True)
     views = serializers.IntegerField(read_only=True)
     is_published = serializers.BooleanField(read_only=True)
+    language = serializers.CharField()
 
     def get_avatar_url(self, obj):
         return self.context['request'].build_absolute_uri(obj.photo.url)

@@ -34,7 +34,8 @@ class MyBookView(APIView):
                 author = request.user,
                 title = title,
                 about = s.validated_data['about'],
-                photo = photo
+                photo = photo,
+                language = s.validated_data['language']
                 # category = Category.objects.get(id=s.validated_data['category_id'])
             )
             return Response({'status': 'ok'})
@@ -44,17 +45,27 @@ class MyBookView(APIView):
 
 class MostViewedBooks(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.AllowAny,)
-    queryset = Book.objects.filter(is_published=True).order_by('-views')
+    # queryset = Book.objects.filter(is_published=True).order_by('-views')
     serializer_class = BookSer
+
+    def get_queryset(self):
+        lang = self.kwargs.get("lang")
+        queryset = Book.objects.filter(is_published=True, language=lang)
+        return queryset
 
 
 class BookView(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.AllowAny,)
-    queryset = Book.objects.filter(is_published=True)
+    # queryset = Book.objects.filter(is_published=True)
     serializer_class = BookSer
     filter_backends = [filters.SearchFilter,DjangoFilterBackend]
     search_fields = ('title', 'about')
     filter_fields = ('category',)
+
+    def get_queryset(self):
+        lang = self.kwargs.get("lang")
+        queryset = Book.objects.filter(is_published=True, language=lang)
+        return queryset
     
 
 class AddCategory(APIView):
