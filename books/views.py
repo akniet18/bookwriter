@@ -161,6 +161,10 @@ class ChapterView(APIView):
         else:
             return Response(s.errors)
 
+    def delete(self, request, id):
+        c = Chapter.objects.get(id=id).delete()
+        return Response({'status': 'ok'})
+
 
 class TextView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
