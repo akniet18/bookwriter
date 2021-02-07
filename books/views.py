@@ -297,4 +297,4 @@ class TestApi(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request):
-        return Response({'status': 'true'})
+        return Response({'status': 'false'})
