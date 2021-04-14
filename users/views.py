@@ -260,7 +260,7 @@ class ForgotPwdSendEmail(APIView):
                 send_mail(
                     'Book writer',
                     f"code: {rand}",
-                    'akinakinov18@gmail.com',
+                    settings.EMAIL_HOST_USER,
                     [s.validated_data['email'],],
                     fail_silently=False,
                 )
