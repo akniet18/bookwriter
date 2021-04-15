@@ -182,7 +182,7 @@ class Register(APIView):
     def post(self, request):
         s = LoginRegUsers(data=request.data)
         if s.is_valid():
-            email = s.validated_data['email']
+            email = s.validated_data['email'].lower()
             pwd = s.validated_data['password']
             if User.objects.filter(email = email).exists():
                 return Response({'status': "already to exists"})
@@ -228,7 +228,7 @@ class Login(APIView):
     def post(self, request):
         s = LoginRegUsers(data=request.data)
         if s.is_valid():
-            email = s.validated_data['email']
+            email = s.validated_data['email'].lower()
             pwd = s.validated_data['password']
             user = User.objects.filter(email = email)
             if user.exists():
@@ -251,7 +251,7 @@ class ForgotPwdSendEmail(APIView):
     def post(self, request):
         s = EmailSer(data=request.data)
         if s.is_valid():
-            user = User.objects.filter(email = s.validated_data['email'])
+            user = User.objects.filter(email = s.validated_data['email'].lower())
             if user.exists():
                 rand = random.randint(1000, 9999)
                 user = user[0]
